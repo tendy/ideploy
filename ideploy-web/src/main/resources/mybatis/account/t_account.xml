@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里namespace必须是接口的路径，不然要运行的时候要报错 “is not known to the MapperRegistry” -->
+<mapper namespace="io.ideploy.web.dao.account.AccountDao">
+
+    <select id="getByUid" parameterType="map" resultType="io.ideploy.web.entity.po.AccountPO" >
+      select * from t_account where uid=#{uid}
+    </select>
+
+</mapper>
