@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<configuration>
+
+  <property scope="context" name="logBaseDir" value="/data/logs/ideploy-web" />
+
+  <!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder charset="UTF-8">
+      <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logBaseDir}/web.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logBaseDir}/web.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <MaxFileSize>50MB</MaxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 日志级别 -->
+  <root level="error">
+    <appender-ref ref="console" />
+    <appender-ref ref="file" />
+  </root>
+
+</configuration>
