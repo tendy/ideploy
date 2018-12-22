@@ -18,6 +18,10 @@
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mysql.version>5.1.46</mysql.version>
+        <google.guava.version>18.0</google.guava.version>
+        <druid.version>1.0.16</druid.version>
+        <alibaba.fastjson.version>1.2.13</alibaba.fastjson.version>
+        <mybatis.springboot.starter.version>1.3.1</mybatis.springboot.starter.version>
     </properties>
 
     <modules>
