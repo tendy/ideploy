@@ -37,14 +37,19 @@
         <div class="card p-4">
           <div class="card-body">
             <h1>Login</h1>
-            <p class="text-muted">Sign In to your account</p>
+            <div class="alert alert-danger alert-dismissable" style="display: none;" role="alert">
+              <span>登录失败</span>
+              <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                     <span class="input-group-text">
                       <i class="icon-user"></i>
                     </span>
               </div>
-              <input class="form-control" type="text" placeholder="Username">
+              <input class="form-control" id="username" name="username" type="text" placeholder="Username">
             </div>
             <div class="input-group mb-4">
               <div class="input-group-prepend">
@@ -52,11 +57,11 @@
                       <i class="icon-lock"></i>
                     </span>
               </div>
-              <input class="form-control" type="password" placeholder="Password">
+              <input class="form-control" id="password" name="password" type="password" placeholder="Password">
             </div>
             <div class="row">
               <div class="col-6">
-                <button class="btn btn-primary px-4" type="button">Login</button>
+                <button class="btn btn-primary px-4" type="button" onclick="login()">Login</button>
               </div>
               <div class="col-6 text-right">
                 <button class="btn btn-link px-0" type="button">Forgot password?</button>
@@ -68,7 +73,7 @@
           <div class="card-body text-center">
             <div>
               <h2>Sign up</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p>IDeploy发布系统，致力规范IT公司的运维流程，减轻技术人员工作负担，打造开源社区基础组件，为中国开源社区贡献自己力量。</p>
               <button class="btn btn-primary active mt-3" type="button">Register Now!</button>
             </div>
           </div>
@@ -84,5 +89,6 @@
 <script src="vendors/pace-progress/js/pace.min.js"></script>
 <script src="vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
 <script src="vendors/@coreui/coreui/js/coreui.min.js"></script>
+<script src="../static/js/login.js" th:src="@{/js/login.js}"></script>
 </body>
 </html>

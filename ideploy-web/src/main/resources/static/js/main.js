@@ -327,4 +327,5 @@ var brandBoxChart4 = new Chart($('#social-box-chart-4'), {
   },
   options: brandBoxChartOptions
 });
+
 //# sourceMappingURL=main.js.map

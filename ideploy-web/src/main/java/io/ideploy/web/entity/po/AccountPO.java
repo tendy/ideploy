@@ -13,7 +13,9 @@ public class AccountPO {
 
     private long uid;
 
-    private String name;
+    private String accountId;
+
+    private String password;
 
     private short type;
 

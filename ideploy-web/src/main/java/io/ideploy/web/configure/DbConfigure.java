@@ -1,8 +1,10 @@
 package io.ideploy.web.configure;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import io.ideploy.web.config.DruidConfig;
 import javax.sql.DataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +17,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * @date Created in 17:29 2018/12/21
  */
 @Configuration
-public class DatasourceConfigure {
+@MapperScan("io.ideploy.web.dao")
+public class DbConfigure {
 
     @Value("${spring.datasource.driver-class-name}")
     private String jdbcDriver;

@@ -12,3 +12,8 @@ Web模板：
 
     http://ace.jeka.by/index.html
     https://coreui.io/demo/#colors.html
+    
+命名规范:
+
+    html网页里的id和class，不使用驼峰，有的浏览器不敏感，类似xx-xx-xx。
+    http://getbem.com/naming/

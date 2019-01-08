@@ -11,7 +11,7 @@ SET NAMES utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `t_account` (
    `uid`           BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `name`          VARCHAR(50) NOT NULL COMMENT '帐号ID，英文字母数字',
+   `account_id`    VARCHAR(50) NOT NULL COMMENT '帐号ID，英文字母数字',
    `password`      VARCHAR(128) NOT NULL COMMENT '密码',
    `type`          TINYINT NOT NULL DEFAULT '1' COMMENT '1-普通帐号，2-ldap帐号，5-超级管理员',
    `nick`          VARCHAR(50) NOT NULL COMMENT '帐号昵称',
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `t_account` (
    `creator`       BIGINT NOT NULL COMMENT '创建者',
    `status`        TINYINT NOT NULL DEFAULT 1 COMMENT '1: 正常, 2: 冻结',
     PRIMARY KEY (`uid`),
-    UNIQUE KEY `uniq_key_name_type` (`name`,`type`)
+    UNIQUE KEY `uniq_key_accountId_type` (`account_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 CREATE TABLE IF NOT EXISTS t_account_group (
@@ -48,12 +48,56 @@ CREATE TABLE IF NOT EXISTS t_role (
     UNIQUE KEY ukey (role_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
+CREATE TABLE IF NOT EXISTS t_account_role_relation(
+    relation_id    INT NOT NULL AUTO_INCREMENT,
+    account_id   INT NOT NULL COMMENT '用户ID',
+    role_id      INT NOT NULL COMMENT '角色ID',
+    create_time    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (relation_id),
+    UNIQUE KEY ukey (account_id,role_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色关联表';
+
+CREATE TABLE IF NOT EXISTS t_resource (
+    resource_id        INT NOT NULL AUTO_INCREMENT,
+    parent_id           INT NOT NULL DEFAULT 0 COMMENT '父资源ID',
+    resource_name      VARCHAR(40) NOT NULL COMMENT '资源名称',
+    create_time    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (resource_id),
+    UNIQUE KEY ukey (resource_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+
+
+CREATE TABLE IF NOT EXISTS t_role_resource_relation(
+    relation_id    INT NOT NULL AUTO_INCREMENT,
+    resource_id   BIGINT NOT NULL COMMENT '资源ID',
+    role_id      INT NOT NULL COMMENT '角色ID',
+    refs_type     TINYINT NOT NULL DEFAULT 0 COMMENT '0-全部  1-自定义列表',
+    refs_data     text NOT NULL  COMMENT '自定义列表数据类型，JSON格式',
+    create_time    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (relation_id),
+    UNIQUE KEY ukey (role_id,resource_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色资源权限关联表';
+
+-- 系统产生的权限，不可编辑
+CREATE TABLE IF NOT EXISTS t_account_resource_relation(
+    relation_id    INT NOT NULL AUTO_INCREMENT,
+    resource_id   BIGINT NOT NULL COMMENT '资源ID',
+    account_id      INT NOT NULL COMMENT '用户ID',
+    refs_type     TINYINT NOT NULL DEFAULT 0 COMMENT '0-全部  1-自定义列表',
+    refs_data     text NOT NULL  COMMENT '自定义列表数据类型，JSON格式',
+    create_time    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (relation_id),
+    UNIQUE KEY ukey (account_id,resource_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户资源权限关联表';
+
 -- 角色仅控制访问菜单
 CREATE TABLE IF NOT EXISTS t_role_access (
     role_id        INT NOT NULL,
     module_name    VARCHAR(40) NOT NULL COMMENT '菜单模块，在代码里定义',
     PRIMARY KEY (role_id, module_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色访问权限表';
+
+
 
 CREATE TABLE IF NOT EXISTS t_env (
     env_id         INT NOT NULL AUTO_INCREMENT,
@@ -212,3 +256,5 @@ CREATE TABLE IF NOT EXISTS t_task_log (
     PRIMARY KEY (log_id),
     KEY key_task_id (task_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '任务日志';
+
+

@@ -9,10 +9,10 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>ideploy-log</artifactId>
+  <artifactId>ideploy-plugin</artifactId>
   <packaging>jar</packaging>
-  <name>ideploy-log</name>
-  <description>发布系统日志模块</description>
+  <name>ideploy-plugin</name>
+  <description>发布系统插件模块</description>
 
   <properties>
 

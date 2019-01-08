@@ -28,7 +28,7 @@
       <module>ideploy-web</module>
       <module>ideploy-common</module>
       <module>ideploy-core</module>
-      <module>ideploy-log</module>
+      <module>ideploy-plugin</module>
     </modules>
 
     <build>
