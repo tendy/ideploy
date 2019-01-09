@@ -130,7 +130,6 @@ CREATE TABLE IF NOT EXISTS t_project (
     target_path    VARCHAR(255) NOT NULL COMMENT '部署到服务器哪个目录(soft link)，目标服务器不要建立这个目录',
     checkout_path  VARCHAR(255) COMMENT '代码在服务器上checkout的目录，比如 /data/ideploy',
     package_files  VARCHAR(2048) COMMENT '打包哪些文件或目录，可以\n分开，默认 * 表示所有',
-    exclude_files  VARCHAR(2048) COMMENT '打包时排除的文件或目录，可以\n分开，比如 .gitignore，默认空',
     pre_checkout   VARCHAR(2048) DEFAULT '' COMMENT '在checkout代码之前执行的shell代码',
     post_checkout  VARCHAR(2048) DEFAULT '' COMMENT '在checkout代码之后执行的shell，比如编译代码',
     pre_release    VARCHAR(2048) DEFAULT '' COMMENT '在同步完代码后(未修改版本目录)执行的shell代码, 比如stop服务，摘除节点',
