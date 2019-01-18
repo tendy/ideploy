@@ -1,4 +1,4 @@
-package io.ideploy.web.service.security;
+package io.ideploy.web.security;
 
 import io.ideploy.web.entity.vo.Account;
 import io.ideploy.web.entity.vo.AuthorityUser;

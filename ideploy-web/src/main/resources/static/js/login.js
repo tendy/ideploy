@@ -26,16 +26,16 @@ function login() {
 
   $.ajax({
     type: 'POST',
-    url: '/login.do',
+    url: '/login',
     data: {
       username: username,
       password: password
     },
     dataType: 'json',
-    contentType: "application/json; charset=utf-8",
+    contentType: "application/x-www-form-urlencoded; charset=utf-8",
     success: function (data) {
       if (data.success) {
-        window.location.href = "/admin/index.html";
+        window.location.href = "/index.html";
       }else {
         $('.alert span:first').html(data.message);
         $('.alert').prop("style", "display:block");

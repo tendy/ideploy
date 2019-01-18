@@ -1,17 +1,31 @@
 package io.ideploy.web.configure;
 
-import static io.ideploy.web.enums.IDeployAuthrority.*;
 
-import io.ideploy.web.service.security.UserDetailServiceImpl;
+
+import com.alibaba.fastjson.JSON;
+import io.ideploy.common.constants.ApiCode;
+import io.ideploy.common.entity.RestResult;
+import io.ideploy.web.security.UrlAccessDecisionManager;
+import io.ideploy.web.security.UrlFilterInvocationSecurityMetadataSource;
+import io.ideploy.web.security.UserDetailServiceImpl;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * @author code4china
@@ -27,6 +41,12 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
+    private UrlAccessDecisionManager urlAccessDecisionManager;
+
+    @Autowired
+    private UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
 
     /***
      * 身份验证配置，用于注入自定义身份验证Bean和密码校验规则
@@ -56,24 +76,28 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login.html", "/about.html", "/error/**", "logout.html").permitAll()
-                .antMatchers("/account/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/project/**").hasAnyRole("PROJECT","ADMIN")
-                .antMatchers("/task/**").hasAnyRole("DEPLOY","ADMIN")
-                .antMatchers("/task/audit/**").hasAnyRole("DEPLOY","ADMIN")
-                .antMatchers("/statis/**").hasAnyRole("STAT","ADMIN")
-                .antMatchers("/setting/**").hasAnyRole("SETTING","ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login.html")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+            .authorizeRequests()
+            .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                @Override
+                public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                    o.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
+                    o.setAccessDecisionManager(urlAccessDecisionManager);
+                    return o;
+                }
+            }).and().formLogin().loginPage("/login").successHandler((request, response, authentication)->{
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    RestResult result = new RestResult(ApiCode.SUCCESS, "登录成功");
+                    out.println(JSON.toJSONString(result));
+                    out.flush();
+                    out.close();
+            })
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll()
+            .and()
+            .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
 }
