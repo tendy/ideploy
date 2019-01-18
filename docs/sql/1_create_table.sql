@@ -93,7 +93,8 @@ CREATE TABLE IF NOT EXISTS t_repository (
     create_time    DATETIME NOT NULL COMMENT '创建时间',
     update_time    DATETIME NOT NULL COMMENT '更新时间',
     creator        BIGINT NOT NULL COMMENT '创建者',
-    PRIMARY KEY (repo_id)
+    PRIMARY KEY (repo_id),
+    KEY key_group_id (group_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '项目组仓库定义，只能在项目组内访问';
 
 CREATE TABLE IF NOT EXISTS t_project_group_detail (
