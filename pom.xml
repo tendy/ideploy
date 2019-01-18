@@ -18,6 +18,7 @@
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mysql.version>5.1.46</mysql.version>
+        <commons.io.version>2.4</commons.io.version>
         <google.guava.version>18.0</google.guava.version>
         <druid.version>1.0.16</druid.version>
         <alibaba.fastjson.version>1.2.13</alibaba.fastjson.version>
@@ -48,6 +49,7 @@
     </build>
 
     <dependencies>
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
@@ -60,9 +62,20 @@
     <dependencyManagement>
       <dependencies>
           <dependency>
+              <groupId>com.alibaba</groupId>
+              <artifactId>fastjson</artifactId>
+              <version>${alibaba.fastjson.version}</version>
+          </dependency>
+
+          <dependency>
               <groupId>mysql</groupId>
               <artifactId>mysql-connector-java</artifactId>
               <version>${mysql.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>commons-io</groupId>
+              <artifactId>commons-io</artifactId>
+              <version>${commons.io.version}</version>
           </dependency>
       </dependencies>
     </dependencyManagement>

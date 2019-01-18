@@ -2,18 +2,17 @@
 spring:
   application:
     name: ideploy-web  #应用名
-  profiles:
-      active: dev  #默认使用dev配置，线上需要关闭
 
   thymeleaf:
       mode: HTML5
       prefix: classpath:/templates/
       suffix: .html
       encoding: UTF-8
+      cache: false
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/deploy?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost:3306/ideploy?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull
     username: root
     password: 12345
     druid:
