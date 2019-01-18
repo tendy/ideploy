@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS t_account_group_member (
 CREATE TABLE IF NOT EXISTS t_env (
     env_id         INT NOT NULL AUTO_INCREMENT,
     env_name       VARCHAR(20) NOT NULL COMMENT '环境名称',
-    is_prod        TINYINT NOT NULL DEFAULT 0 COMMENT '是否是生产环境',
+    prod           TINYINT NOT NULL DEFAULT 0 COMMENT '是否是生产环境',
     create_time    DATETIME NOT NULL COMMENT '创建时间',
     creator        BIGINT NOT NULL COMMENT '创建者',
     PRIMARY KEY (env_id)
