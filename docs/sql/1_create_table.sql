@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `t_account` (
    `phone`         VARCHAR(20) NOT NULL DEFAULT '' COMMENT '电话号码',
    `email`         VARCHAR(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
    `dding`         VARCHAR(80) NOT NULL DEFAULT '' COMMENT '用户钉钉号',
-   `create_time`   DATETIME NOT NULL COMMENT '创建时间',
-   `update_time`   DATETIME NOT NULL COMMENT '更新时间',
+   `create_time`   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time`   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    `creator`       BIGINT NOT NULL COMMENT '创建者',
    `status`        TINYINT NOT NULL DEFAULT 1 COMMENT '1: 正常, 2: 冻结',
     PRIMARY KEY (`uid`),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `t_account` (
 CREATE TABLE IF NOT EXISTS t_account_group (
     acc_group_id   INT NOT NULL AUTO_INCREMENT COMMENT '主键',
     group_name     VARCHAR(40) NOT NULL COMMENT '用户组名称',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (acc_group_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组';
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS t_env (
     env_id         INT NOT NULL AUTO_INCREMENT,
     env_name       VARCHAR(20) NOT NULL COMMENT '环境名称',
     prod           TINYINT NOT NULL DEFAULT 0 COMMENT '是否是生产环境',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     creator        BIGINT NOT NULL COMMENT '创建者',
     PRIMARY KEY (env_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '环境定义';
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS t_project (
     post_release   VARCHAR(2048) DEFAULT '' COMMENT '在部署完成后&修改版本目录后执行的shell代码, 比如start服务，加回节点',
     prod_audit     TINYINT NOT NULL DEFAULT 0 COMMENT '生产环境是否需要审核',
     transfer_mode  VARCHAR(20) NOT NULL DEFAULT 'ssh' COMMENT '数据传输方式: ssh/ansible',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
-    update_time    DATETIME NOT NULL COMMENT '更新时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     creator        BIGINT NOT NULL COMMENT '创建者',
     PRIMARY KEY (project_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '项目定义';
@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS t_project_group (
     group_name     VARCHAR(40) NOT NULL COMMENT '项目组名称',
     audit_email    TINYINT NOT NULL DEFAULT 0 COMMENT '审核发送email通知',
     audit_dingding TINYINT NOT NULL DEFAULT 0 COMMENT '审核发送钉钉通知',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
-    update_time    DATETIME NOT NULL COMMENT '更新时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (group_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '项目组';
 
@@ -90,8 +90,8 @@ CREATE TABLE IF NOT EXISTS t_repository (
     username       VARCHAR(40) NOT NULL DEFAULT '' COMMENT '帐号，这里填写负责人的帐号，不要使用公共帐号',
     password       VARCHAR(128) NOT NULL DEFAULT '' COMMENT '密码(加密)',
     ssh_key        VARCHAR(2048) NOT NULL DEFAULT '' COMMENT 'git的ssh密钥',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
-    update_time    DATETIME NOT NULL COMMENT '更新时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     creator        BIGINT NOT NULL COMMENT '创建者',
     PRIMARY KEY (repo_id),
     KEY key_group_id (group_id)
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS t_server (
     server_id      INT NOT NULL AUTO_INCREMENT,
     ip             VARCHAR(50) NOT NULL COMMENT 'IP地址，如果有多个IP，填写一个即可，比如内网IP',
     server_name    VARCHAR(100) NOT NULL COMMENT '服务器名称',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (server_id),
     UNIQUE KEY ukey_ip (ip)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '服务器定义';
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS t_server_group (
     group_name     VARCHAR(50) NOT NULL COMMENT '服务器名称',
     env_id         INT NOT NULL COMMENT '环境',
     project_id     INT NOT NULL COMMENT '所属项目',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY(group_id),
     KEY key_project_id (project_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '服务器组定义';
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS t_task (
     env_id         INT NOT NULL COMMENT '环境',
     deploy_servers INT NOT NULL COMMENT '部署的服务器数量',
     success_count  INT NOT NULL COMMENT '成功的数量',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (task_id),
     KEY key_project_id (project_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '部署任务';
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS t_task_audit (
     auditor_id     BIGINT NOT NULL COMMENT '审核者ID，可以是 uid 或 acc_group_id',
     auditor_type   TINYINT NOT NULL DEFAULT 1 COMMENT '审核者类型：1-用户；2-用户组',
     remark         VARCHAR(100) NOT NULL DEFAULT '' COMMENT '审核意见',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     audit_time     DATETIME DEFAULT NULL COMMENT '审核时间',
     ip             VARCHAR(50) DEFAULT '' NOT NULL COMMENT '审核时的IP',
     PRIMARY KEY (task_audit_id),
@@ -198,8 +198,8 @@ CREATE TABLE IF NOT EXISTS t_task_server (
     ip             VARCHAR(50) NOT NULL COMMENT 'IP地址，必须冗余在这里，防止server被改动后影响现有的发布',
     server_name    VARCHAR(100) NOT NULL COMMENT '服务器名称，冗余字段',
     deploy_status  TINYINT NOT NULL DEFAULT 3 COMMENT '部署状态, 1: 成功, 2: 失败, 3: 等待部署',
-    start_time     DATETIME COMMENT '开始发布时间',
-    finish_time    DATETIME COMMENT '结束发布时间',
+    start_time     DATETIME DEFAULT NULL COMMENT '开始发布时间',
+    finish_time    DATETIME DEFAULT NULL COMMENT '结束发布时间',
     PRIMARY KEY (id),
     UNIQUE KEY ukey_task_id_server_id (task_id, server_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '部署服务器';
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS t_task_server_log (
     server_id      INT NOT NULL COMMENT '服务器ID',
     ip             VARCHAR(50) NOT NULL COMMENT 'IP地址，必须冗余在这里，防止server被改动后影响现有的发布',
     content        VARCHAR(255) NOT NULL COMMENT '日志内容，每行日志一条记录',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (log_id),
     KEY key_task_server_time (task_id, server_id, create_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '发布某台服务器产生的日志';
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS t_task_log (
     log_id         INT NOT NULL AUTO_INCREMENT,
     task_id        INT NOT NULL COMMENT '部署任务',
     content        VARCHAR(255) NOT NULL COMMENT '日志内容，每行日志一条记录',
-    create_time    DATETIME NOT NULL COMMENT '创建时间',
+    create_time    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (log_id),
     KEY key_task_id (task_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '执行任务时的日志';
