@@ -14,9 +14,5 @@ public class AccountDaoTest extends AbstractContextTest{
     @Autowired
     private AccountDao accountDao;
 
-    @Test
-    public void testGetAccount(){
-        System.out.println(accountDao.getByUid(1));
-    }
 
 }

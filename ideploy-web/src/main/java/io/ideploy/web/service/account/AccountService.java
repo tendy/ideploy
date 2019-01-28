@@ -1,9 +1,13 @@
 package io.ideploy.web.service.account;
 
+import io.ideploy.common.util.EntityUtil;
+import io.ideploy.web.dao.account.AccountDao;
+import io.ideploy.web.entity.po.AccountPO;
 import io.ideploy.web.entity.vo.Account;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-    private static Map<String, Account> testData = new HashMap<>();
-    static {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        Account account = new Account();
-        account.setUid(1);
-        account.setNick("管理员");
-        account.setAccountId("root");
-        account.setPassword(encoder.encode("root"));
-        account.setEmail("root@ideploy.io");
-        testData.put("root", account);
-    }
+    @Autowired
+    private AccountDao accountDao;
 
     public Account getByAccountId(String accountId){
-        return testData.get(accountId);
+        AccountPO po = accountDao.getByAccountId(accountId);
+        return EntityUtil.from(po, Account.class);
     }
 }

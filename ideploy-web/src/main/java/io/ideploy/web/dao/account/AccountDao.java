@@ -9,6 +9,6 @@ import io.ideploy.web.entity.po.AccountPO;
  */
 public interface AccountDao {
 
-    AccountPO getByUid(long uid);
+    AccountPO getByAccountId(String accountId);
 
 }

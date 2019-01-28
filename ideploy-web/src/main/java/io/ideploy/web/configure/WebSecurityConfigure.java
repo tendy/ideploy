@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -23,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -48,6 +50,11 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
     @Autowired
     private UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     /***
      * 身份验证配置，用于注入自定义身份验证Bean和密码校验规则
      * @param auth
@@ -55,7 +62,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService);
     }
 
     /***
@@ -84,14 +91,23 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
                     o.setAccessDecisionManager(urlAccessDecisionManager);
                     return o;
                 }
-            }).and().formLogin().loginPage("/login").successHandler((request, response, authentication)->{
+            }).and().formLogin().loginPage("/login")
+                .successHandler((request, response, authentication)->{
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
                     RestResult result = new RestResult(ApiCode.SUCCESS, "登录成功");
                     out.println(JSON.toJSONString(result));
                     out.flush();
                     out.close();
-            })
+                })
+                .failureHandler((request, response, authentication)->{
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    RestResult result = new RestResult(ApiCode.FAILURE, "用户密码错误");
+                    out.println(JSON.toJSONString(result));
+                    out.flush();
+                    out.close();
+                })
             .permitAll()
             .and()
             .logout()

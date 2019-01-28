@@ -8,13 +8,13 @@
 
 <div th:fragment="commonStyle" >
   <!-- Icons-->
-  <link href="vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
-  <link href="vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-  <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="/vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+  <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+  <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
   <!-- Main styles for this application-->
-  <link href="css/style.css" rel="stylesheet">
-  <link href="vendors/pace-progress/css/pace.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/vendors/pace-progress/css/pace.min.css" rel="stylesheet">
 </div>
 
 <div th:fragment="headerNav">
@@ -24,9 +24,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-      <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25"
+      <img class="navbar-brand-full" src="/img/brand/logo.svg" width="89" height="25"
            alt="CoreUI Logo">
-      <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30"
+      <img class="navbar-brand-minimized" src="/img/brand/sygnet.svg" width="30" height="30"
            alt="CoreUI Logo">
     </a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button"
@@ -43,7 +43,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
            aria-expanded="false">
-          <img class="img-avatar" src="img/avatars/6.jpg" alt="admin@bootstrapmaster.com">
+          <img class="img-avatar" src="/img/avatars/6.jpg" alt="admin@bootstrapmaster.com">
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <div class="dropdown-header text-center">
@@ -82,9 +82,8 @@
     <nav class="sidebar-nav">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="/index.html">
             <i class="nav-icon icon-speedometer"></i> Dashboard
-            <span class="badge badge-primary">NEW</span>
           </a>
         </li>
         <li class="nav-item nav-dropdown">
@@ -92,11 +91,11 @@
             <i class="nav-icon icon-layers"></i>项目管理</a>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
-              <a class="nav-link" href="base/breadcrumb.html">
+              <a class="nav-link" href="/project/list_group.html">
                 <i class="nav-icon icon-people"></i>项目组</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="base/cards.html">
+              <a class="nav-link" href="/project/list_repo.html">
                 <i class="nav-icon icon-briefcase"></i>仓库组</a>
             </li>
           </ul>
@@ -106,7 +105,7 @@
             <i class="nav-icon icon-menu"></i>上线单</a>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
-              <a class="nav-link" href="buttons/buttons.html">
+              <a class="nav-link" href="/task/list_task.html">
                 <i class="nav-icon icon-docs"></i>历史记录</a>
             </li>
             <li class="nav-item">
@@ -189,14 +188,13 @@
 
 <!-- 底部footer -->
 <footer th:fragment="commonFooter">
-  <script src="vendors/jquery/js/jquery.min.js"></script>
-  <script src="vendors/popper.js/js/popper.min.js"></script>
-  <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
-  <script src="vendors/pace-progress/js/pace.min.js"></script>
-  <script src="vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
-  <script src="vendors/@coreui/coreui/js/coreui.min.js"></script>
+  <script src="/vendors/jquery/js/jquery.min.js"></script>
+  <script src="/vendors/popper.js/js/popper.min.js"></script>
+  <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/vendors/pace-progress/js/pace.min.js"></script>
+  <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
+  <script src="/vendors/@coreui/coreui/js/coreui.min.js"></script>
 </footer>
-
 
 </body>
 </html>
